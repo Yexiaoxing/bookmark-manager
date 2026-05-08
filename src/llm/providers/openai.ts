@@ -6,6 +6,12 @@ import {
   YOUTUBE_SUMMARY_SYSTEM_PROMPT,
 } from "../prompts.js";
 import type { EnrichBookmarkInput, LlmProvider } from "../types.js";
+import { ChatCompletionMessage } from "openai/resources/chat/completions/completions.mjs";
+
+const getContent = (message: ChatCompletionMessage): string => {
+  // @ts-ignore reasoning_content is for thinking models
+  return message.content ?? message.reasoning_content ?? "";
+};
 
 export function createOpenAiProvider(config: Config): LlmProvider {
   const client = new OpenAI({
@@ -24,7 +30,7 @@ export function createOpenAiProvider(config: Config): LlmProvider {
         ],
         temperature: 0.3,
       });
-      return res.choices[0]?.message?.content ?? "";
+      return getContent(res.choices[0]?.message) ?? "";
     },
 
     async summarizeYoutubeTranscriptRaw(transcript: string): Promise<string> {
@@ -36,7 +42,7 @@ export function createOpenAiProvider(config: Config): LlmProvider {
         ],
         temperature: 0.35,
       });
-      return res.choices[0]?.message?.content?.trim() ?? "";
+      return getContent(res.choices[0]?.message).trim();
     },
 
     async repairJsonRaw(broken: string, modelId: string): Promise<string> {
@@ -56,7 +62,7 @@ export function createOpenAiProvider(config: Config): LlmProvider {
         ],
         temperature: 0,
       });
-      return res.choices[0]?.message?.content?.trim() ?? "";
+      return getContent(res.choices[0]?.message).trim();
     },
   };
 }
