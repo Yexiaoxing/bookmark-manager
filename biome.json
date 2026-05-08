@@ -1,0 +1,24 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.4.14/schema.json",
+  "files": {
+    "includes": [
+      "**/*",
+      "!node_modules",
+      "!dist",
+      "!web/dist",
+      "!data",
+      "!drizzle/meta",
+      "!drizzle/*.sql"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  }
+}

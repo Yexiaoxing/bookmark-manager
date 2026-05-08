@@ -1,0 +1,10 @@
+node_modules
+dist
+web/dist
+.env
+data/
+.drizzle
+*.log
+.DS_Store
+
+coverage
